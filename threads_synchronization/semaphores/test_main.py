@@ -1,5 +1,5 @@
-from main import pipeline
-from buffer import FIFO
+from threads_synchronization.semaphores.main import pipeline
+from threads_synchronization.buffer import FIFO
 import pytest
 
 

@@ -1,20 +1,12 @@
 import time
-import random
-from buffer import FIFO
+from threads_synchronization.buffer import FIFO
 from threading import Semaphore, Thread, Event
+from threads_synchronization.utils import generate_even_number, generate_odd_number
 
 gen_even_waiting = 0
 gen_odd_waiting = 0
 cons_even_waiting = 0
 cons_odd_waiting = 0
-
-
-def generate_even_number():
-    return random.randint(0, 20) * 2
-
-
-def generate_odd_number():
-    return random.randint(0, 20) * 2 + 1
 
 
 def a1_condition(queue: FIFO):
