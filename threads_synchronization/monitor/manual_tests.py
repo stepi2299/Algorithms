@@ -96,5 +96,5 @@ def all_test(fifo_empty):
     # assert len(fifo_empty) > 2
     # assert fifo_empty.odd_values >= fifo_empty.even_values
 
-a1_a2_empty_test(fifo_empty)
 
+a1_a2_empty_test(fifo_empty)
