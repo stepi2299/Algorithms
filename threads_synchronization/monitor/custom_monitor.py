@@ -44,7 +44,6 @@ class CustomMonitor(Monitor):
         self.enter()
         if not self.a1_condition():
             self.gen_even_waiting += 1
-            self.leave()
             self.wait(self.conditions["gen_even"])
             self.gen_even_waiting -= 1
         self.buffer.put(number=number)
@@ -55,14 +54,12 @@ class CustomMonitor(Monitor):
             self.signal((self.conditions["cons_even"]))
         elif self.b2_condition() and self.cons_odd_waiting:
             self.signal(self.conditions["cons_odd"])
-        else:
-            self.leave()
+        self.leave()
 
     def put_odd_number(self, number: int):
         self.enter()
         if not self.a2_condition():
             self.gen_odd_waiting += 1
-            self.leave()
             self.wait(self.conditions["gen_odd"])
             self.gen_odd_waiting -= 1
         self.buffer.put(number=number)
@@ -73,14 +70,12 @@ class CustomMonitor(Monitor):
             self.signal((self.conditions["cons_even"]))
         elif self.b2_condition() and self.cons_odd_waiting:
             self.signal(self.conditions["cons_odd"])
-        else:
-            self.leave()
+        self.leave()
 
     def get_even_number(self):
         self.enter()
         if not self.b1_condition():
             self.cons_even_waiting += 1
-            self.leave()
             self.wait(self.conditions["cons_even"])
             self.cons_even_waiting -= 1
         self.buffer.get_even()
@@ -91,26 +86,23 @@ class CustomMonitor(Monitor):
             self.signal(self.conditions["gen_odd"])
         elif self.b2_condition() and self.cons_odd_waiting:
             self.signal(self.conditions["cons_odd"])
-        else:
-            self.leave()
+        self.leave()
 
     def get_odd_number(self):
         self.enter()
         if not self.b2_condition():
             self.cons_odd_waiting += 1
-            self.leave()
             self.wait(self.conditions["cons_odd"])
             self.cons_odd_waiting -= 1
         self.buffer.get_odd()
         print(f"B2: {self.buffer}")
         if self.a1_condition() and self.gen_even_waiting:
-            self.signal((self.conditions["gen_even"]))
+            self.signal(self.conditions["gen_even"])
         elif self.a2_condition() and self.gen_odd_waiting:
             self.signal(self.conditions["gen_odd"])
         elif self.b1_condition() and self.cons_even_waiting:
-            self.signal((self.conditions["cons_even"]))
-        else:
-            self.leave()
+            self.signal(self.conditions["cons_even"])
+        self.leave()
 
 
 def a1_loop(custom_monitor: CustomMonitor, stop_event: Event):
